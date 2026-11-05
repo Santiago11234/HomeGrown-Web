@@ -4,6 +4,8 @@ import HomegrownLogo from "./components/HomegrownLogo";
 import CurrentYear from "./components/CurrentYear";
 import SpotlightCard from "./components/SpotlightCard";
 import RotatingText from "./components/RotatingText";
+import MeadowHero from "./components/MeadowHero";
+import Reveal from "./components/Reveal";
 
 const INSTAGRAM_URL = "https://www.instagram.com/myhomegrownapp";
 const APP_STORE_URL = "#";
@@ -50,6 +52,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "#FFF8E8", color: "#563D1F" }}>
 
+      <MeadowHero className="min-h-[760px] sm:min-h-[820px]">
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-5 max-w-5xl mx-auto w-full">
         <HomegrownLogo width={148} />
@@ -75,24 +78,15 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section
-        className="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden"
-        style={{ minHeight: "90vh", paddingTop: "80px", paddingBottom: "80px" }}
-      >
-        {/* Soft nature gradient — warmer and more brand-appropriate than WebGL aurora */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: [
-              "radial-gradient(ellipse 120% 65% at 50% -5%, rgba(143,170,124,0.32) 0%, rgba(255,248,232,0) 62%)",
-              "radial-gradient(ellipse 55% 35% at 15% 90%, rgba(224,211,180,0.25) 0%, rgba(255,248,232,0) 55%)",
-              "radial-gradient(ellipse 45% 30% at 88% 85%, rgba(143,170,124,0.15) 0%, rgba(255,248,232,0) 55%)",
-            ].join(", "),
-          }}
-        />
-
-        <div className="relative z-10 flex flex-col items-center">
+      {/* Hero — copy sits in the sky above the 3D meadow */}
+      <section className="flex flex-col items-center text-center px-6 pt-10 sm:pt-14 pb-40">
+        <Reveal className="flex flex-col items-center" distance={24}>
+          <span
+            className="mb-6 inline-flex items-center rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-[0.1em] backdrop-blur-sm"
+            style={{ color: "#244b27", background: "rgba(255,248,232,0.75)", border: "1px solid rgba(36,75,39,0.18)" }}
+          >
+            Local food, close to home
+          </span>
           {/* Headline with rotating produce word */}
           <h1
             className="font-black mb-8 max-w-4xl"
@@ -139,33 +133,31 @@ export default function HomePage() {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 rounded-full font-bold text-base border-2 transition-all hover:opacity-70"
-              style={{ borderColor: "#563D1F", color: "#563D1F" }}
+              className="px-8 py-4 rounded-full font-bold text-base border-2 transition-all hover:opacity-70 backdrop-blur-sm"
+              style={{ borderColor: "#563D1F", color: "#563D1F", background: "rgba(255,248,232,0.6)" }}
             >
               Follow on Instagram
             </a>
           </div>
-        </div>
-
-        <div
-          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, transparent, #FFF8E8)" }}
-        />
+        </Reveal>
       </section>
+      </MeadowHero>
 
       {/* Features — editorial list */}
       <section className="py-24 px-6" style={{ background: "#FFF8E8" }}>
         <div className="max-w-5xl mx-auto">
-          <h2
-            className="text-3xl sm:text-4xl font-black mb-16"
-            style={{ color: "#244b27" }}
-          >
-            Local food. Real community.
-          </h2>
+          <Reveal>
+            <h2
+              className="text-3xl sm:text-4xl font-black mb-16"
+              style={{ color: "#244b27" }}
+            >
+              Local food. Real community.
+            </h2>
+          </Reveal>
 
           <div>
-            {features.map((f) => (
-              <div key={f.title}>
+            {features.map((f, i) => (
+              <Reveal key={f.title} delay={i * 0.08} distance={28}>
                 <div className="h-px" style={{ background: "rgba(36,75,39,0.13)" }} />
                 <div className="grid grid-cols-1 sm:grid-cols-[5fr_7fr] gap-3 sm:gap-16 py-7">
                   <h3
@@ -181,7 +173,7 @@ export default function HomePage() {
                     {f.description}
                   </p>
                 </div>
-              </div>
+              </Reveal>
             ))}
             <div className="h-px" style={{ background: "rgba(36,75,39,0.13)" }} />
           </div>
@@ -192,9 +184,9 @@ export default function HomePage() {
       <section className="pb-24 px-6" style={{ background: "#FFF8E8" }}>
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {steps.map((s) => (
+            {steps.map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.12} className="h-full [&>*]:h-full">
               <SpotlightCard
-                key={s.title}
                 spotlightColor="#8FAA7C"
                 intensity={0.12}
                 spotlightSize={260}
@@ -217,6 +209,7 @@ export default function HomePage() {
                   {s.body}
                 </p>
               </SpotlightCard>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -234,13 +227,18 @@ export default function HomePage() {
           speed={0.4}
         />
         <div className="relative z-10">
-          <h2 className="text-4xl sm:text-5xl font-black mb-4">
-            Download HomeGrown.<br />It&apos;s free.
-          </h2>
-          <p className="text-lg mb-10 max-w-md mx-auto" style={{ opacity: 0.75 }}>
-            Buy and sell fresh produce with people right around the corner.
-            Available now on iOS.
-          </p>
+          <Reveal>
+            <h2 className="text-4xl sm:text-5xl font-black mb-4">
+              Download HomeGrown.<br />It&apos;s free.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="text-lg mb-10 max-w-md mx-auto" style={{ opacity: 0.75 }}>
+              Buy and sell fresh produce with people right around the corner.
+              Available now on iOS.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2} distance={24}>
           <a
             href={APP_STORE_URL}
             className="inline-block px-10 py-4 rounded-full font-bold text-base transition-all hover:opacity-90 hover:scale-[1.02]"
@@ -248,6 +246,7 @@ export default function HomePage() {
           >
             Download Free on iOS
           </a>
+          </Reveal>
         </div>
       </section>
 
@@ -256,6 +255,7 @@ export default function HomePage() {
         className="py-8 px-6 text-xs text-center"
         style={{ background: "#FFF8E8", color: "#563D1F", opacity: 0.65 }}
       >
+        <Reveal distance={16}>
         <div className="flex justify-center mb-4">
           <HomegrownLogo width={120} />
         </div>
@@ -274,6 +274,7 @@ export default function HomePage() {
           </Link>
         </div>
         <p>© <CurrentYear /> My HomeGrown. All rights reserved.</p>
+        </Reveal>
       </footer>
     </div>
   );
